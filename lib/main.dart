@@ -12,7 +12,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => DiscoverProvider())],
+      providers: [
+        ChangeNotifierProvider(
+            lazy: false, // Init the provider immediately
+            create: (_) =>
+                DiscoverProvider()..loadNextPage()) // Cascade Operator
+      ],
       child: MaterialApp(
           title: 'TokTik',
           debugShowCheckedModeBanner: false,
