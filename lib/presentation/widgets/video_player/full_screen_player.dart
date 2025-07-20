@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tok_tik/presentation/widgets/video_player/player_bg_gradient.dart';
 import 'package:video_player/video_player.dart';
 
 class FullScreenPlayer extends StatefulWidget {
@@ -46,17 +47,30 @@ class _FullScreenPlayerState extends State<FullScreenPlayer> {
               child: CircularProgressIndicator(),
             );
           }
-          return AspectRatio(
-            aspectRatio: _controller.value.aspectRatio,
-            child: Stack(
-              children: [
-                VideoPlayer(_controller),
-                Positioned(
-                  bottom: 50,
-                  left: 20,
-                  child: _VideoCaption(caption: widget.caption),
-                )
-              ],
+          // ? GestureDetector is a special widget to detect touch gestures
+          return GestureDetector(
+            onTap: () {
+              if (_controller.value.isPlaying) {
+                _controller.pause();
+                return;
+              }
+              _controller.play();
+            },
+            child: AspectRatio(
+              aspectRatio: _controller.value.aspectRatio,
+              child: Stack(
+                children: [
+                  VideoPlayer(_controller),
+                  PlayerBgGradient(
+                    stops: const [0.8, 1.0],
+                  ),
+                  Positioned(
+                    bottom: 50,
+                    left: 20,
+                    child: _VideoCaption(caption: widget.caption),
+                  )
+                ],
+              ),
             ),
           );
         });
